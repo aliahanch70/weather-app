@@ -13,15 +13,6 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
-const commonStyles = {
-  bgcolor: 'background.paper',
-  borderColor: 'text.primary',
-  m: 1,
-  border: 1,
-  width: '1rem',
-  height: '1rem',
-};
-
 
 export default function NavbarSetting() {
 
@@ -44,28 +35,26 @@ export default function NavbarSetting() {
     };
     return (
         <React.Fragment>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' , color:"#d3c016ff"}}> 
 
                 <Tooltip title="Account settings">
                     <IconButton
                         onClick={handleClick}
                         size="small"
-                        sx={{ ml: 2 , border:1 , padding:0.5 , borderRadius:2 }}
+                        sx={{ ml: 2, border: 1, padding: 0.5, borderRadius: 2 }}
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        {/* <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> */}
-                              
-                        <SettingsOutlinedIcon   />
+                        <SettingsOutlinedIcon />
 
-                              
+
 
                     </IconButton>
                 </Tooltip>
             </Box>
             <Menu
-                anchorEl={anchorEl}
+                anchorEl={anchorEl} 
                 id="account-menu"
                 open={open}
                 onClose={handleClose}
@@ -102,18 +91,18 @@ export default function NavbarSetting() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                <Typography sx={{ fontSize:15 , mr: 2 }}>Theme</Typography>
-                <ToggleButtonGroup
-                    color="primary"
-                    value={mode}
-                    exclusive
-                    onChange={handleChange}
-                    aria-label="Platform"
-                >
-                    <ToggleButton value="Dark">Dark</ToggleButton>
-                    <ToggleButton value="Light">Light</ToggleButton>
-                </ToggleButtonGroup>
-</MenuItem>
+                    <Typography sx={{ fontSize: 15, mr: 2 }}>Theme</Typography>
+                    <ToggleButtonGroup
+                        color="primary"
+                        value={mode}
+                        exclusive
+                        onChange={handleChange}
+                        aria-label="Platform"
+                    >
+                        <ToggleButton value="Dark">Dark</ToggleButton>
+                        <ToggleButton value="Light">Light</ToggleButton>
+                    </ToggleButtonGroup>
+                </MenuItem>
 
                 <Divider />
                 <MenuItem onClick={handleClose}>
