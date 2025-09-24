@@ -1,94 +1,39 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { useState, useEffect } from 'react'; // useEffect اضافه شد
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import NavbarSetting from './NavbarSetting';
+import allCities from './AllCity'; // فرض می‌کنیم این یک آرایه از رشته‌هاست
+import { useWeather } from '../contexts/WeatherContext';
 
-import allCities from './AllCity';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-import Select, { type SelectChangeEvent } from '@mui/material/Select';
-// import MenuIcon from '@mui/icons-material/Menu';
-// import SearchIcon from '@mui/icons-material/Search';
-
-
-// url تصویر
 const imageUrl = '/image 1.png';
 
-
-
-
-// const Search = styled('div')(({ theme }) => ({
-//   position: 'relative',
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   '&:hover': {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginLeft: 0,
-//   width: '100%',
-//   [theme.breakpoints.up('sm')]: {
-//     marginLeft: theme.spacing(1),
-//     width: 'auto',
-//   },
-// }));
-
-// const SearchIconWrapper = styled('div')(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: '100%',
-//   position: 'absolute',
-//   pointerEvents: 'none',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// }));
-
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: 'inherit',
-//   width: '100%',
-//   '& .MuiInputBase-input': {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create('width'),
-//     [theme.breakpoints.up('sm')]: {
-//       width: '12ch',
-//       '&:focus': {
-//         width: '20ch',
-//       },
-//     },
-//   },
-// }));
-
 export default function Layout() {
+  const { searchQuery, setSearchQuery } = useWeather();
+  
+  // This state now tracks what is being typed in the box
+  const [inputValue, setInputValue] = useState<string>('');
 
-  const [age, setAge] = React.useState('');
+  // This effect ensures that if the global searchQuery changes elsewhere,
+  // the input value in the navbar reflects that change.
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ bgcolor: "#F3FAFE", color: "#242105" }}>
         <Toolbar>
           <Box
             component="img"
-            sx={{
-              marginRight: 2,
-              width: '56px',
-              height: '56px',
-            }}
+            sx={{ marginRight: 2, width: '56px', height: '56px' }}
             src={imageUrl}
-            alt="Login visual"
+            alt="App Logo"
           />
-
-
           <Typography
             variant="h6"
             noWrap
@@ -100,17 +45,38 @@ export default function Layout() {
           <Autocomplete
             disablePortal
             options={allCities}
+            getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
             sx={{ width: '30%' }}
+            value={
+              allCities.find(city => city.label === searchQuery) || null
+            }
+            inputValue={inputValue}
             
-            renderInput={(params) => <TextField  
-              {...params}
-              label="search your location"
-              defaultValue="Small"
-              size="small"
-            />}
-          />
+            onChange={(event: any, newValue: { label: string; country: string } | null) => {
+              if (newValue) {
+                setSearchQuery(newValue.label);
+              }
+            }}
 
-          <NavbarSetting/>
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+            }}
+
+            renderInput={(params) => (
+              <TextField  
+                {...params}
+                label="Search your location"
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.preventDefault(); 
+                    setSearchQuery(inputValue.trim());
+                  }
+                }}
+                size="small"
+              />
+            )}
+          />
+          <NavbarSetting />
         </Toolbar>
       </AppBar>
     </Box>

@@ -13,7 +13,7 @@ export default function ForecastCard() {
     {[...Array(14)].map((_, index) => (
         <Box
             key={index}
-            sx={{ minWidth: 100, bgcolor: '#E1E9EE', p: 2, borderRadius: 2, textAlign: 'center' }}
+            sx={{ minWidth: 70, bgcolor: '#CDD9E0', p: 2, borderRadius: 5 , maxWidth:20, textAlign: 'center' }}
         >
             <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                 Day {index + 1}

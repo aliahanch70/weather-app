@@ -7,6 +7,7 @@ import  Layout  from '../components/Layout';
 import WeatherNow from '../components/WeatherNow';
 import AverageMonthly from '../components/AverageMonthly';
 import Forecast from '../components/Forecast';
+import Footer from '../components/Footer';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -38,6 +39,7 @@ export default function DashboardPage() {
        
       </Grid>
     </Box>
+    <Footer/>
     </Box>
   );
 }
