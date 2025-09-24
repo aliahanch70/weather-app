@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react'; // useEffect اضافه شد
+import { useState, useEffect } from 'react'; 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import NavbarSetting from './NavbarSetting';
-import allCities from './AllCity'; // فرض می‌کنیم این یک آرایه از رشته‌هاست
+import allCities from './AllCity'; 
 import { useWeather } from '../contexts/WeatherContext';
 
 const imageUrl = '/image 1.png';
@@ -15,11 +14,9 @@ const imageUrl = '/image 1.png';
 export default function Layout() {
   const { searchQuery, setSearchQuery } = useWeather();
   
-  // This state now tracks what is being typed in the box
   const [inputValue, setInputValue] = useState<string>('');
 
-  // This effect ensures that if the global searchQuery changes elsewhere,
-  // the input value in the navbar reflects that change.
+  // هماهنگ کردن مقدار ورودی
   useEffect(() => {
     setInputValue(searchQuery);
   }, [searchQuery]);

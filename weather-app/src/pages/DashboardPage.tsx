@@ -34,7 +34,7 @@ export default function DashboardPage() {
           <Item sx={{bgcolor:"#E1E9EE",maxHeight:234,borderRadius:5}} elevation={4}><AverageMonthly/></Item>
         </Grid>
         <Grid size={12}>
-          <Item sx={{bgcolor:"#E1E9EE", borderRadius:5}} elevation={4}><Forecast/></Item>
+          <Item sx={{bgcolor:"#E1E9EE", borderRadius:5  }} elevation={4}><Forecast/></Item>
         </Grid>
        
       </Grid>
