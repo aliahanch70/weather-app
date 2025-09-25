@@ -12,105 +12,92 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
+import { LanguageToggleButton } from './LanguageToggleButton';
+import { useTranslation } from 'react-i18next';
+import { useColorMode } from '../contexts/ThemeContext'; // 1. Import the theme hook
 
 export default function NavbarSetting() {
+  const { t } = useTranslation();
+  // 2. Get the real mode and toggle function from our global context
+  const { mode, toggleColorMode } = useColorMode(); 
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mode, setMode] = React.useState('Dark');
-    const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-    const handleChange = (
-        event: React.MouseEvent<HTMLElement>,
-        newMode: string,
-    ) => {
-        setMode(newMode);
-    };
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    return (
-        <React.Fragment>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' , color:"#d3c016ff"}}> 
+  // 3. New handler for the theme toggle
+  const handleThemeChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newMode: 'light' | 'dark' | null,
+  ) => {
+    // Check if a new mode was selected and it's different from the current one
+    if (newMode && newMode !== mode) {
+      toggleColorMode();
+    }
+  };
 
-                <Tooltip title="Account settings">
-                    <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        sx={{ ml: 2, border: 1, padding: 0.5, borderRadius: 2 }}
-                        aria-controls={open ? 'account-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                    >
-                        <SettingsOutlinedIcon />
+  return (
+    <React.Fragment>
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}> 
+        <Tooltip title={t('settings')}>
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2, border: 1, padding: 0.5, borderRadius: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <SettingsOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl} 
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        // ... (rest of the Menu props remain the same)
+        slotProps={{ paper: { /* ... */ } }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        {/* 4. Cleaner and more organized menu items */}
+        <MenuItem>
+          <Typography sx={{ fontSize: 15, mr: 2, flexGrow: 1 }}>{t('language')}</Typography>
+          <LanguageToggleButton />
+        </MenuItem>
 
+        {/* Use a non-clickable container for the toggle group */}
+        <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 1 }}>
+          <Typography sx={{ fontSize: 15, mr: 2, flexGrow: 1 }}>{t('theme')}</Typography>
+          <ToggleButtonGroup
+            color="primary"
+            value={mode} // Use the mode from the global context
+            exclusive
+            onChange={handleThemeChange} // Use the new handler
+            aria-label="theme"
+          >
+            <ToggleButton value="light">{t('light')}</ToggleButton>
+            <ToggleButton value="dark">{t('dark')}</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
 
-
-                    </IconButton>
-                </Tooltip>
-            </Box>
-            <Menu
-                anchorEl={anchorEl} 
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                slotProps={{
-                    paper: {
-                        elevation: 0,
-                        sx: {
-                            overflow: 'visible',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                            mt: 1.5,
-                            '& .MuiAvatar-root': {
-                                width: 32,
-                                height: 32,
-                                ml: -0.5,
-                                mr: 1,
-                            },
-                            '&::before': {
-                                content: '""',
-                                display: 'block',
-                                position: 'absolute',
-                                top: 0,
-                                right: 14,
-                                width: 10,
-                                height: 10,
-                                bgcolor: 'background.paper',
-                                transform: 'translateY(-50%) rotate(45deg)',
-                                zIndex: 0,
-                            },
-                        },
-                    },
-                }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            >
-                <MenuItem>
-                    <Typography sx={{ fontSize: 15, mr: 2 }}>Theme</Typography>
-                    <ToggleButtonGroup
-                        color="primary"
-                        value={mode}
-                        exclusive
-                        onChange={handleChange}
-                        aria-label="Platform"
-                    >
-                        <ToggleButton value="Dark">Dark</ToggleButton>
-                        <ToggleButton value="Light">Light</ToggleButton>
-                    </ToggleButtonGroup>
-                </MenuItem>
-
-                <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Exit
-                </MenuItem>
-            </Menu>
-        </React.Fragment>
-    );
+        <Divider />
+        
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          {t('logout')}
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
+  );
 }

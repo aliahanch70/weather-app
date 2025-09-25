@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { getWeather } from '../services/api'; // فرض می‌کنیم این سرویس API شماست
+import { getWeather } from '../services/api'; 
 import type { ReactNode } from 'react';
-import { getWeatherForecast } from '../services/apiForecast'; // فرض می‌کنیم این سرویس API شماست
+import { getWeatherForecast } from '../services/apiForecast';
 
 
 

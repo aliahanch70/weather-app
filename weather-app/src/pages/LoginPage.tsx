@@ -4,6 +4,8 @@ import { Box, Paper, Typography, TextField, Button, Alert } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import { useTranslation } from 'react-i18next';
+
 
 // url تصویر
 const imageUrl = '/Login.png';
@@ -12,6 +14,13 @@ const LoginPage: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const [t, i18n] = useTranslation();
+
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLanguage = event.target.value;
+    i18n.changeLanguage(newLanguage);
+  };
 
   // مدیریت ارسال فرم
   const handleSubmit = (): void => {
@@ -37,14 +46,14 @@ const LoginPage: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       minHeight="100vh"
-      bgcolor="#F3FAFE"
+      sx={{ bgcolor: 'background.default' }}
     >
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center" // Centers items horizontally
       >
-        <Paper elevation={4} sx={{ borderRadius: "15px", overflow: 'hidden', mb: 2, }}>
+        <Paper elevation={4} sx={{ borderRadius: "15px", overflow: 'hidden', mb: 2 }}>
           <Box sx={{
             width: 960,
             height: 560,
@@ -55,7 +64,7 @@ const LoginPage: React.FC = () => {
             {/* فرم لاگین */}
             <Box sx={{
               flex: 1,
-              backgroundColor: 'white',
+              backgroundColor: theme => theme.palette.background.paper,
               p: 4,
               display: 'flex',
               flexDirection: 'column',
@@ -66,7 +75,7 @@ const LoginPage: React.FC = () => {
                 component="h1"
                 sx={{ mb: 3, textAlign: 'center', fontWeight: 'bold' }}
               >
-                Login
+                {t('welcomeMessage')}
               </Typography>
 
               {/* Alert */}
@@ -93,6 +102,7 @@ const LoginPage: React.FC = () => {
               component="img"
               sx={{
                 flex: 1,
+                backgroundColor: theme => theme.palette.background.paper,
                 width: '50%',
                 height: '100%',
                 objectFit: 'cover',
@@ -104,22 +114,24 @@ const LoginPage: React.FC = () => {
           </Box>
         </Paper>
 
-        
-        {/* تغییر زبان: */}
+
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
               Language
             </InputLabel>
             <NativeSelect
-              defaultValue={30}
+              // Set the current value from the i18n instance
+              value={i18n.language}
+              // 3. Add the onChange handler
+              onChange={handleLanguageChange}
               inputProps={{
                 name: 'Language',
                 id: 'uncontrolled-native',
               }}
             >
-              <option value={10}>English</option>
-              <option value={20}>Farsi</option>
+              <option value='en'>English</option>
+              <option value='fa'>Farsi</option>
             </NativeSelect>
           </FormControl>
         </Box>

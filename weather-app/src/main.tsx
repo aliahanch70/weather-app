@@ -1,8 +1,8 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ThemeProvider } from '@mui/material/styles';
 import App from './App';
-import theme from './components/Theme'; // فایلی که در مرحله قبل ساختید
+import { RtlProvider } from './ThemeAndRtlProvider';
+import './i18n'; 
+
 import './index.css';
 
 const root = ReactDOM.createRoot(
@@ -10,9 +10,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
+  <>
+      <RtlProvider>
       <App />
-    </ThemeProvider>
-  </React.StrictMode>
+      </RtlProvider>
+  </>
 );

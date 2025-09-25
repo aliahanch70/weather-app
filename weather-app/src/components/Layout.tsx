@@ -1,81 +1,150 @@
 import { useState, useEffect } from 'react'; 
-import AppBar from '@mui/material/AppBar';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NavbarSetting from './NavbarSetting';
 import allCities from './AllCity'; 
 import { useWeather } from '../contexts/WeatherContext';
+import { useTranslation } from 'react-i18next';
 
 const imageUrl = '/image 1.png';
 
 export default function Layout() {
-  const { searchQuery, setSearchQuery } = useWeather();
+  const theme = useTheme();
+  // Detect if the screen is small (mobile)
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
-  const [inputValue, setInputValue] = useState<string>('');
+  // State to manage the visibility of the mobile search bar
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
-  // هماهنگ کردن مقدار ورودی
+  const { searchQuery, setSearchQuery } = useWeather();
+  const [inputValue, setInputValue] = useState<string>('');
+  const { t } = useTranslation();
+
   useEffect(() => {
     setInputValue(searchQuery);
   }, [searchQuery]);
 
+  const handleSearch = (query: string) => {
+    if (query.trim()) {
+      setSearchQuery(query.trim());
+      setMobileSearchOpen(false); // Close mobile search after searching
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: "#F3FAFE", color: "#242105" }}>
+      <Box 
+        sx={{
+          bgcolor: 'background.default',
+          boxShadow: theme.palette.mode === 'dark' 
+            ? '0px 5px 15px rgba(166, 165, 165, 0.15)' 
+            : theme.shadows[4], 
+        }}
+      >
         <Toolbar>
-          <Box
-            component="img"
-            sx={{ marginRight: 2, width: '56px', height: '56px' }}
-            src={imageUrl}
-            alt="App Logo"
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ fontSize: "14px", flexGrow: 1 }}
-          >
-            Weather Dashboard
-          </Typography>
-          <Autocomplete
-            disablePortal
-            options={allCities}
-            getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
-            sx={{ width: '30%' }}
-            value={
-              allCities.find(city => city.label === searchQuery) || null
-            }
-            inputValue={inputValue}
-            
-            onChange={(event: any, newValue: { label: string; country: string } | null) => {
-              if (newValue) {
-                setSearchQuery(newValue.label);
-              }
-            }}
-
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue);
-            }}
-
-            renderInput={(params) => (
-              <TextField  
-                {...params}
-                label="Search your location"
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    event.preventDefault(); 
-                    setSearchQuery(inputValue.trim());
+          {isMobile && mobileSearchOpen ? (
+            // --- MOBILE SEARCH VIEW ---
+            <>
+              <IconButton onClick={() => setMobileSearchOpen(false)}>
+                <ArrowBackIcon />
+              </IconButton>
+              <Autocomplete
+                fullWidth 
+                autoFocus 
+                open 
+                options={allCities}
+                getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                inputValue={inputValue}
+                onInputChange={(_event, newInputValue) => {
+                  setInputValue(newInputValue);
+                }}
+                onChange={(_event: any, newValue: { label: string; country: string } | null) => {
+                  if (newValue) {
+                    handleSearch(newValue.label);
                   }
                 }}
-                size="small"
+                renderInput={(params) => (
+                  <TextField 
+                    {...params}
+label={t('searchYourLocation')}                    
+onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault(); 
+                        handleSearch(inputValue);
+                      }
+                    }}
+                  />
+                )}
               />
-            )}
-          />
-          <NavbarSetting />
+            </>
+          ) : (
+            // --- NORMAL VIEW ---
+            <>
+              <Box
+                component="img"
+                sx={{ marginRight: 2, width: '56px', height: '56px' }}
+                src={imageUrl}
+                alt="App Logo"
+              />
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ fontSize: "14px", flexGrow: 1 }}
+              >
+                {t('weatherDashboard')}
+           </Typography>
+              
+              {isMobile ? (
+                // On mobile, show the search icon
+                <IconButton onClick={() => setMobileSearchOpen(true)}>
+                  <SearchIcon />
+                </IconButton>
+              ) : (
+                <Autocomplete
+                sx={{ width: '30%' }}
+                 
+                options={allCities}
+                getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                inputValue={inputValue}
+                onInputChange={(_event, newInputValue) => {
+                  setInputValue(newInputValue);
+                }}
+                onChange={(_event: any, newValue: { label: string; country: string } | null) => {
+                  if (newValue) {
+                    handleSearch(newValue.label);
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField 
+                  
+                    {...params}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault(); 
+                        handleSearch(inputValue);
+                      }
+                    }}
+                    size='small'
+                    label={t('searchYourLocation')}
+                    variant="outlined"
+                  />
+                )}
+              />
+              )}
+              <NavbarSetting />
+            </>
+          )}
         </Toolbar>
-      </AppBar>
+      </Box>
     </Box>
   );
 }

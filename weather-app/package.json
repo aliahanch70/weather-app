@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.2",
@@ -18,12 +19,16 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.12.2",
     "i18next": "^25.5.2",
+    "i18next-http-backend": "^3.0.2",
     "lucide-react": "^0.544.0",
+    "openmeteo": "^1.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-i18next": "^15.7.3",
     "react-indiana-drag-scroll": "^2.2.1",
-    "react-router-dom": "^7.9.1"
+    "react-router-dom": "^7.9.1",
+    "stylis": "^4.3.6",
+    "stylis-plugin-rtl": "^2.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
