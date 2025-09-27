@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const imageUrl = '/Login.png';
+const imageUrl = '/images/Login.png';
 
 const LoginPage: React.FC = () => {
   const [name, setName] = useState<string>('');

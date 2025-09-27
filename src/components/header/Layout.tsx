@@ -14,7 +14,7 @@ import allCities from '../AllCity';
 import { useWeather } from '../../contexts/WeatherContext';
 import { useTranslation } from 'react-i18next';
 
-const imageUrl = '/image 1.png';
+const imageUrl = '/images/image 1.png';
 
 export default function Layout() {
   const theme = useTheme();

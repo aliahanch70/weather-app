@@ -49,7 +49,7 @@ export default function Footer() {
         {/* Left Side */}
         <Box display="flex" alignItems="center" gap={1}>
           <Box component="img"
-            src="/icon.png"
+            src="/images/icon.png"
             alt="Nadin Logo"
             sx={{ height: 40 }}
           />
