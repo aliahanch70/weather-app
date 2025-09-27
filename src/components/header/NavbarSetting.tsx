@@ -53,28 +53,22 @@ export default function NavbarSetting() {
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
-        
-
         onClose={handleClose}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
 
         <Box sx={{ display: 'flex', flexDirection: 'column', p:2 , borderRadius: 5 }}>
-          <Typography sx={{ fontSize: 15, mr: 2, flexGrow: 1 }}>{t('theme')}</Typography>
+          <Typography sx={{ fontSize: 14, mr: 2, flexGrow: 1,mb:0.5 }}>{t('theme')}</Typography>
           <ModeToggleButton />
         </Box>
 
         <Divider sx={{mx:2}} />
 
         <Box sx={{ display: 'flex', flexDirection: 'column', p:2 , borderRadius: 5 }}>
-          <Typography sx={{ fontSize: 15, mr: 2, flexGrow: 1 }}>{t('language')}</Typography>
+          <Typography sx={{ fontSize: 14, mr: 2, flexGrow: 1 , mb:0.5 }}>{t('language')}</Typography>
           <LanguageToggleButton />
         </Box>
-
-        
-
-
         <Divider sx={{mx:2}} />
 
         <MenuItem onClick={handleLogout}>

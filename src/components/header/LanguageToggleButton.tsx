@@ -25,8 +25,8 @@ export const LanguageToggleButton: React.FC = () => {
         borderRadius: 5
       }}
     >
-      <ToggleButton sx={{ width: '100%' }} value="en" aria-label="English">En</ToggleButton>
-      <ToggleButton sx={{ width: '100%' }} value="fa" aria-label="Farsi">Fa</ToggleButton>
+      <ToggleButton sx={{ width: '100%' , fontSize:12 }} value="en" aria-label="English">En</ToggleButton>
+      <ToggleButton sx={{ width: '100%', fontSize:12 }} value="fa" aria-label="Farsi">Fa</ToggleButton>
     </ToggleButtonGroup>
   );
 };

@@ -32,8 +32,8 @@ export const ModeToggleButton: React.FC = () => {
                 borderRadius: 5
             }}
         >
-            <ToggleButton value="light"><SunnyIcon sx={{ fontSize: 16, mx: 2, }} /> {t('light')}</ToggleButton>
-            <ToggleButton value="dark"><DarkModeTwoToneIcon sx={{ fontSize: 16, mx: 2 }} />{t('dark')}</ToggleButton>
+            <ToggleButton value="light" sx={{fontSize:12}}><SunnyIcon sx={{ fontSize: 16, mx: 1, }} /> {t('light')}</ToggleButton>
+            <ToggleButton value="dark" sx={{fontSize:12}}><DarkModeTwoToneIcon sx={{ fontSize: 16, mx: 1 }} />{t('dark')}</ToggleButton>
         </ToggleButtonGroup>
     );
 };

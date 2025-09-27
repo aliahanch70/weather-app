@@ -1,4 +1,4 @@
-# 🌦️ Weather App (React + Vite)
+# 🌦️ Weather App (React + Vite) [Demo](https://weather-appnadin.netlify.app/).
 
 A simple weather application built with **React**, **Vite**, and **Material UI**.  
 It fetches real-time weather data from [WeatherAPI](https://www.weatherapi.com/).
