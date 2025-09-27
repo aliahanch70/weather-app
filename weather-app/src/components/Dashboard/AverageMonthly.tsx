@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { Typography, Box, CircularProgress } from '@mui/material';
-import { useWeather } from '../contexts/WeatherContext';
-import { getMonthlyHistory } from '../services/apiAvg';
+import { useWeather } from '../../contexts/WeatherContext';
+import { getMonthlyHistory } from '../../services/apiAvg';
 import { useTranslation } from 'react-i18next';
 
 export default function MonthlyAverageChart() {
@@ -81,9 +81,9 @@ export default function MonthlyAverageChart() {
         >
           {/* SVG Gradient */}
           <defs>
-            <linearGradient id="lineGradient" x1="1" y1="0" x2="0" y2="1">
-              <stop offset="40%" stopColor="#eb5656ff" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#5796dfff" stopOpacity={0.2} />
+            <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="40%" stopColor="#f03232ff" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#1879beff" stopOpacity={0.2} />
             </linearGradient>
           </defs>
         </LineChart>

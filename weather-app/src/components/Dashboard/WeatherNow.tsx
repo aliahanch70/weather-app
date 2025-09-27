@@ -1,6 +1,6 @@
 import { Box, Stack, Typography, CircularProgress } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { useWeather } from '../contexts/WeatherContext';
+import { useWeather } from '../../contexts/WeatherContext';
 import NetworkCheckOutlinedIcon from '@mui/icons-material/NetworkCheckOutlined';
 import { useTranslation } from 'react-i18next';
 

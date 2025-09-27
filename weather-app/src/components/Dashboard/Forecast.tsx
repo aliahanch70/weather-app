@@ -1,5 +1,5 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
-import { useWeather } from "../contexts/WeatherContext";
+import { useWeather } from "../../contexts/WeatherContext";
 import ScrollContainer from 'react-indiana-drag-scroll';
 import Skeleton from '@mui/material/Skeleton';
 import { useTranslation } from 'react-i18next';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { useColorMode } from '../contexts/ThemeContext';
+import { useColorMode } from '../../contexts/ThemeContext';
 import SunnyIcon from '@mui/icons-material/Sunny';
 import DarkModeTwoToneIcon from '@mui/icons-material/DarkModeTwoTone';
 

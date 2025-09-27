@@ -10,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NavbarSetting from './NavbarSetting';
-import allCities from './AllCity';
-import { useWeather } from '../contexts/WeatherContext';
+import allCities from '../AllCity';
+import { useWeather } from '../../contexts/WeatherContext';
 import { useTranslation } from 'react-i18next';
 
 const imageUrl = '/image 1.png';

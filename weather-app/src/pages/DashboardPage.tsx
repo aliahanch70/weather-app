@@ -2,10 +2,10 @@
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import  Layout  from '../components/Layout';
-import WeatherNow from '../components/WeatherNow';
-import AverageMonthly from '../components/AverageMonthly';
-import Forecast from '../components/Forecast';
+import  Layout  from '../components/header/Layout';
+import WeatherNow from '../components/Dashboard/WeatherNow';
+import AverageMonthly from '../components/Dashboard/AverageMonthly';
+import Forecast from '../components/Dashboard/Forecast';
 import Footer from '../components/Footer';
 
 
