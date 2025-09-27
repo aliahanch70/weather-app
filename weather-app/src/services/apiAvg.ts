@@ -1,29 +1,28 @@
 import axios from 'axios';
 import { format } from 'date-fns';
 
-
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY; 
 const BASE_URL = 'https://api.weatherapi.com/v1';
 
-//  تولید تاریخ اولین روز ۱۲ ماه ظ
+// تبدیل تاریخ به ماه شمسی با Intl
+const toJalaliMonth = (date: Date): string => {
+  return new Intl.DateTimeFormat('fa-IR', { month: 'long' }).format(date);
+};
+
 const getLast12MonthsDates = (): string[] => {
   const dates: string[] = [];
   const today = new Date();
 
   for (let i = 0; i < 12; i++) {
-    // ماه حجاری تا 11 ماه پیش
     const targetDate = new Date(today.getFullYear(), today.getMonth() - i, 1);
     dates.push(format(targetDate, 'yyyy-MM-dd'));
   }
-  
-  return dates.reverse(); // آرایه را برعکس می‌کنیم 
+  return dates.reverse();
 };
 
-// تابع اصلی برای دریافت دیتای ۱۲ ماه گذشته
-export const getMonthlyHistory = async (city: string) => {
+export const getMonthlyHistory = async (city: string, lang: string) => {
   const dates = getLast12MonthsDates();
   
-  // برای هر تاریخ یک درخواست API ایجاد می‌کنیم
   const requests = dates.map(date => 
     axios.get(`${BASE_URL}/history.json`, {
       params: {
@@ -35,14 +34,15 @@ export const getMonthlyHistory = async (city: string) => {
   );
 
   try {
-    // انتظار برای پایان درخواست
     const responses = await Promise.all(requests);
     
-    // نتایج را پردازش و به فرمت مناسب برای چارت تبدیل می‌کنیم
     const chartData = responses.map(response => {
       const forecastDay = response.data.forecast.forecastday[0];
       const date = new Date(forecastDay.date);
-      const monthName = format(date, 'MMM'); // نام کوتاه ماه 
+
+      const monthName = lang === 'fa'
+        ? toJalaliMonth(date)   //  شمسی
+        : format(date, 'MMM');  //  میلادی
 
       return {
         month: monthName,
@@ -54,6 +54,6 @@ export const getMonthlyHistory = async (city: string) => {
 
   } catch (error) {
     console.error("Failed to fetch monthly history:", error);
-    throw new Error('Could not fetch historical data. The city might not be available or the date is out of range.');
+    throw new Error('Could not fetch historical data.');
   }
 };

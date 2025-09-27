@@ -3,15 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 export const LanguageToggleButton: React.FC = () => {
-  // Use array destructuring for older versions
-  const [t, i18n] = useTranslation();
+  const { i18n } = useTranslation();
 
   const handleLanguageChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _: React.MouseEvent<HTMLElement>,
     newLanguage: string | null,
   ) => {
     if (newLanguage !== null) {
-      // Now 'i18n' is the correct object from the array's second element
       i18n.changeLanguage(newLanguage);
     }
   };
@@ -20,12 +18,15 @@ export const LanguageToggleButton: React.FC = () => {
     <ToggleButtonGroup
       value={i18n.language}
       exclusive
+      color="primary"
       onChange={handleLanguageChange}
       aria-label="language"
-      size="small"
+      sx={{
+        borderRadius: 5
+      }}
     >
-      <ToggleButton value="en" aria-label="English">En</ToggleButton>
-      <ToggleButton value="fa" aria-label="Farsi">Fa</ToggleButton>
+      <ToggleButton sx={{ width: '100%' }} value="en" aria-label="English">En</ToggleButton>
+      <ToggleButton sx={{ width: '100%' }} value="fa" aria-label="Farsi">Fa</ToggleButton>
     </ToggleButtonGroup>
   );
 };

@@ -19,8 +19,6 @@ function App() {
           </Routes>
 
         </BrowserRouter>
-              
-
       </WeatherProvider>
     </ColorModeProvider>
   )

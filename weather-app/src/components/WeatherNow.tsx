@@ -5,39 +5,41 @@ import NetworkCheckOutlinedIcon from '@mui/icons-material/NetworkCheckOutlined';
 import { useTranslation } from 'react-i18next';
 
 
-//ساده‌سازی شرایط آب و هوا
-const simplifyWeatherCondition = (text: string): string => {
-    if (!text) return 'Unknown';
-    const lowerCaseText = text.toLowerCase();
-    // const { t } = useTranslation();
+// simplify weather condition text
 
-    if (lowerCaseText.includes('sun') || lowerCaseText.includes('clear')) {
-        return `Sunny`;
-    }
-    if (lowerCaseText.includes('cloud') || lowerCaseText.includes('overcast')) {
-        return 'Cloudy';
-    }
-    if (lowerCaseText.includes('rain') || lowerCaseText.includes('drizzle')) {
-        return 'Rain';
-    }
-    if (lowerCaseText.includes('snow') || lowerCaseText.includes('sleet') || lowerCaseText.includes('ice') || lowerCaseText.includes('blizzard')) {
-        return 'Snow';
-    }
-    if (lowerCaseText.includes('thunder')) {
-        return 'Storm';
-    }
-    if (lowerCaseText.includes('mist') || lowerCaseText.includes('fog') || lowerCaseText.includes('haze')) {
-        return 'Fog';
-    }
-
-    // اگر هیچ یک از شرایط بالا مطابقت نداشت، فقط اولین کلمه را برگردان
-    return text.split(' ')[0];
-};
 
 export default function WeatherNow() {
     const { weatherData, loading, error, searchQuery } = useWeather();
-    const simplifiedText = simplifyWeatherCondition(weatherData?.current.condition.text);
+    
     const { t, i18n } = useTranslation();
+
+    // simplify weather condition text
+    const simplifyWeatherCondition = (text: string): string => {
+        if (!text) return 'Unknown';
+        const lowerCaseText = text.toLowerCase();
+
+        if (lowerCaseText.includes('sun') || lowerCaseText.includes('clear')) {
+            return `${t('sun')}`;
+        }
+        if (lowerCaseText.includes('cloud') || lowerCaseText.includes('overcast')) {
+            return `${t('cloudy')}`;
+        }
+        if (lowerCaseText.includes('rain') || lowerCaseText.includes('drizzle')) {
+            return `${t('rain')}`;
+        }
+        if (lowerCaseText.includes('snow') || lowerCaseText.includes('sleet') || lowerCaseText.includes('ice') || lowerCaseText.includes('blizzard')) {
+            return `${t('s')}`;
+        }
+        if (lowerCaseText.includes('thunder')) {
+            return `${t('thunder')}`;
+        }
+        if (lowerCaseText.includes('mist') || lowerCaseText.includes('fog') || lowerCaseText.includes('haze')) {
+            return `${t('mist')}`;
+        }
+        // return the first word 
+        return text.split(' ')[0];
+    };
+    const simplifiedText = simplifyWeatherCondition(weatherData?.current.condition.text);
 
     //  Loading State 
     if (loading) {
@@ -52,8 +54,8 @@ export default function WeatherNow() {
     // Error State 
     if (error) {
         return (
-            <Box p={4} minHeight={234} maxHeight={234}>
-                <Typography color="error" align="center"><NetworkCheckOutlinedIcon />{error}</Typography>
+            <Box m={10} minHeight={234} maxHeight={234} >
+                <Typography color="error" align="center"><NetworkCheckOutlinedIcon fontSize='large' />{t('error')}</Typography>
             </Box>
         );
     }
@@ -67,16 +69,14 @@ export default function WeatherNow() {
         );
     }
 
-
-
     const localTime = new Date(weatherData.location.localtime);
     const isFarsi = i18n.language === 'fa';
 
     const dayOfWeekFormatter = new Intl.DateTimeFormat(
-        isFarsi ? 'fa-IR' : 'en-GB', // بر اساس زبان، منطقه را انتخاب کن
+        isFarsi ? 'fa-IR' : 'en-GB', // locale
         {
             weekday: 'long',
-            calendar: isFarsi ? 'persian' : 'gregory' // مهم: نوع تقویم را مشخص کن
+            calendar: isFarsi ? 'persian' : 'gregory' // calendar type
         }
     );
 
@@ -84,11 +84,11 @@ export default function WeatherNow() {
         isFarsi ? 'fa-IR' : 'en-GB',
         {
             day: 'numeric',
-            month: isFarsi ? 'long' : 'short', // نام کامل ماه در فارسی
+            month: isFarsi ? 'long' : 'short', // month format 
             year: 'numeric',
             hour: 'numeric',
             minute: 'numeric',
-            hour12: !isFarsi, // حالت ۱۲ ساعته فقط برای انگلیسی
+            hour12: !isFarsi, // 12-hour format for english
             calendar: isFarsi ? 'persian' : 'gregory'
         }
     );
@@ -98,28 +98,119 @@ export default function WeatherNow() {
 
     return (
 
-        <Stack direction="row" spacing={2} sx={{ p: 2, justifyContent: 'space-between', alignItems: 'center' }} maxHeight={234} >
-            <Box sx={{ color: "", textAlign: 'left' }}>
+        <Stack direction="row"
+            spacing={2}
+            sx={{
+                px: { md: 3, xs: 2 },
+                py: { md: 2, xs: 1 },
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}
+            maxHeight={234}
+        >
 
-                <Box sx={{ display: "flex", alignItems: 'center', fontSize: 16, mb: 1, gap: 0.5, bgcolor: "#CDD9E0", borderRadius: 5, width: "fit-content", px: 2, py: 1 }} >
-                    <LocationOnIcon sx={{ fontSize: 20, color: theme => theme.palette.color1?.paper }} />
-                    <Typography sx={{ color: theme => theme.palette.color1?.paper }}>{weatherData.location.name}</Typography>
+            {/* right box */}
+            <Box
+                sx={{ textAlign: 'left' }}>
+
+                <Box
+                    sx={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        mb: 1,
+                        gap: 0.5,
+                        bgcolor: '#CDD9E0',
+                        borderRadius: 5,
+                        px: 2,
+                        py: 1,
+                    }}
+                >
+                    <LocationOnIcon
+                        sx={{
+                            fontSize: { md: 16, xs: 14 },
+                            color: theme => theme.palette.color1?.paper,
+                        }}
+                    />
+                    <Typography
+                        sx={{
+                            fontSize: { md: 16, xs: 14 },
+                            color: theme => theme.palette.color1?.paper,
+                            lineHeight: 'normal',
+                        }}
+                    >
+                        {weatherData.location.name}
+                    </Typography>
                 </Box>
 
-                <Box sx={{ fontSize: 32, fontWeight: 'bold', color: theme => theme.palette.color1?.default }}>{dayOfWeek}</Box>
-                <Box sx={{ fontSize: 14, mb: 1, color: theme => theme.palette.color1?.default }}>{fullDate}</Box>
+                <Box
+                    sx={{
+                        fontSize: { md: 32, xs: 24 },
+                        fontWeight: 'bold',
+                        color: theme => theme.palette.color1?.default
+                    }}>
+                    {dayOfWeek}
+                </Box>
+                <Box
+                    sx={{
+                        fontSize: { md: 14, xs: 12 },
+                        mb: { md: 1, xs: 2 },
+                        color: theme => theme.palette.color1?.default
+                    }}>
+                    {fullDate}
+                </Box>
 
-                <Box sx={{ fontSize: 36, fontWeight: 'bold', color: theme => theme.palette.color1?.default, }}>{Math.round(weatherData.current.temp_c)}°C</Box>
-                <Box sx={{ fontSize: 14, color: theme => theme.palette.color1?.default, textAlign: 'left' }}>{t('high')} {weatherData.current.heatindex_c}</Box>
+                <Box
+                    sx={{
+                        fontSize: { md: 36, xs: 26 },
+                        fontWeight: 'bold',
+                        color: theme => theme.palette.color1?.default,
+                    }}>
+                    {Math.round(weatherData.current.temp_c)}°C
+                </Box>
+                <Box
+                    sx={{
+                        fontSize: { md: 14, xs: 12 },
+                        color: theme => theme.palette.color1?.default,
+                    }}>
+                    {t('high')}: {Math.round(weatherData.current.heatindex_c)}
+                    {" "}
+                    {t('low')}: {Math.round(weatherData.current.dewpoint_c)}
+                </Box>
             </Box>
 
-            <Box sx={{ display: "flex", flexDirection: 'column', alignItems: 'flex-end' }}>
+            {/* left box */}
 
+            <Box sx={{ display: "flex", flexDirection: 'column', alignItems: 'flex-start', direction: 'ltr', }}>
 
-                <Box component="img" sx={{ height: 100 }} alt={weatherData.current.condition.text} src={`https:${weatherData.current.condition.icon}`} />
-                <Box sx={{ fontSize: 32, color: theme => theme.palette.color1?.default, textAlign: 'right', wordWrap: 'break-word', overflow: 'hidden' }}>{simplifiedText}</Box>
-                <Box component='span' sx={{ fontSize: 14, color: theme => theme.palette.color1?.default, textAlign: 'right', mt: 2 }}>
-                    {t('feelsLike')} {Math.round(weatherData.current.feelslike_c)}
+                <Box
+                    component="img"
+                    sx={{ height: 100 }}
+                    alt={weatherData.current.condition.text}
+                    src={`https:${weatherData.current.condition.icon}`}
+                />
+                <Box
+                    sx={{
+                        fontSize: { md: 32, xs: 24 },
+                        color: theme => theme.palette.color1?.default,
+                        textAlign: 'right',
+                        overflow: 'hidden'
+                    }}>
+                    {simplifiedText}
+                </Box>
+                <Box component='span'
+                    sx={{
+                        direction: 'ltr',
+                        fontSize: { md: 14, xs: 12 },
+                        color: theme => theme.palette.color1?.default,
+                        textAlign: 'right',
+                        mt: 2,
+                        display: 'inline-block'
+                    }}>
+                    <span style={{ direction: 'ltr', display: 'inline-block' }}>
+                        {t('feelsLike')} <Box component='span' sx={{ direction: 'ltr', display: 'inline-block' }}>
+                            {Math.round(weatherData.current.feelslike_c)}
+                        </Box>
+                    </span>
                 </Box>
             </Box>
         </Stack>

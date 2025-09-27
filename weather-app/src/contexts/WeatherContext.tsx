@@ -3,8 +3,6 @@ import { getWeather } from '../services/api';
 import type { ReactNode } from 'react';
 import { getWeatherForecast } from '../services/apiForecast';
 
-
-
 interface WeatherContextType {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
@@ -14,10 +12,10 @@ interface WeatherContextType {
   error: string | null;
 }
 
-//  ساخت Context
+//  create context
 const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
 
-//  ساخت Provider 
+//  create provider 
 export const WeatherProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState<string>('San Francisco');
   const [weatherData, setWeatherData] = useState<any>(null);
@@ -25,7 +23,7 @@ export const WeatherProvider: React.FC<{ children: ReactNode }> = ({ children })
   const [error, setError] = useState<string | null>(null);
   const [weatherForecastData, setWeatherForecastData] = useState<any>(null);
 
-  // 
+  // fetch data when searchQuery changes
 useEffect(() => {
     if (!searchQuery) return;
 
@@ -35,7 +33,6 @@ useEffect(() => {
         setError(null);
         const response = await getWeather(searchQuery);
         const responseForecast = await getWeatherForecast(searchQuery);
-
 
         console.log('API Success Response:', response.data ,responseForecast); 
         console.log(response.data.current.condition.text);
@@ -69,6 +66,7 @@ useEffect(() => {
   );
 };
 
+// custom hook for weather context
 export const useWeather = (): WeatherContextType => {
   const context = useContext(WeatherContext);
   if (context === undefined) {

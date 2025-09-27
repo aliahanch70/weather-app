@@ -1,8 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { RtlProvider } from './ThemeAndRtlProvider';
-import './i18n'; 
-
+import { RtlProvider } from './contexts/ThemeAndRtlProvider';
+import './i18n';
 import './index.css';
 
 const root = ReactDOM.createRoot(
@@ -11,8 +10,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <>
-      <RtlProvider>
+    <RtlProvider>
       <App />
-      </RtlProvider>
+    </RtlProvider>
   </>
 );

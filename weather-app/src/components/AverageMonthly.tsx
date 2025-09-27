@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { Typography, Box, CircularProgress } from '@mui/material';
-import { useWeather } from '../contexts/WeatherContext'; // دریافت نام شهر
-import { getMonthlyHistory } from '../services/apiAvg'; 
+import { useWeather } from '../contexts/WeatherContext';
+import { getMonthlyHistory } from '../services/apiAvg';
 import { useTranslation } from 'react-i18next';
 
 export default function MonthlyAverageChart() {
-  const { searchQuery } = useWeather(); // دریافت شهر جستجو شده از Context
+  const { searchQuery } = useWeather();
   const [chartData, setChartData] = useState<{ month: string; avgTemp: number }[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { t } = useTranslation();
-
+  const { t, i18n } = useTranslation();
+  const isFarsi = i18n.language === 'fa';
 
   useEffect(() => {
-    // هر زمان شهر جستجو شده تغییر کرد، این تابع اجرا می‌شود
     const fetchHistoryData = async () => {
       if (!searchQuery) return;
-
       try {
         setLoading(true);
         setError(null);
-        const data = await getMonthlyHistory(searchQuery);
+        // current language for API function
+        const data = await getMonthlyHistory(searchQuery, i18n.language);
         setChartData(data);
       } catch (err: any) {
         setError(err.message);
@@ -29,9 +28,8 @@ export default function MonthlyAverageChart() {
         setLoading(false);
       }
     };
-
     fetchHistoryData();
-  }, [searchQuery]); // searchQuery وابسته 
+  }, [searchQuery, i18n.language]);
 
   if (loading) {
     return (
@@ -55,14 +53,16 @@ export default function MonthlyAverageChart() {
       <Typography sx={{ fontSize: 18, fontWeight: 'bold', my: 1, ml: 2, textAlign: 'left', color: theme => theme.palette.color1?.default }}>
         {t('monthlyAverages')}
       </Typography>
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: '100%' , fontSize:10 }}>
         <LineChart
-          
+
           height={180}
           dataset={chartData}
+
           xAxis={[{
             scaleType: 'point',
             dataKey: 'month',
+            tickSize:5,
             disableLine: true,
             disableTicks: true,
           }]}
@@ -71,20 +71,15 @@ export default function MonthlyAverageChart() {
             area: true,
             color: 'url(#lineGradient)',
           }]}
-          // yAxis={[{ valueFormatter: (value:any) => `${value}°C` }]}
-
-          grid={{ horizontal: true, vertical: false }}
           yAxis={[{
             disableLine: true,
             disableTicks: true,
-            tickLabelStyle: {
-              fontSize: 14,
-              
-            },
-            // اضافه کردن علامت '°C' به انتهای هر عدد
+            position: isFarsi ? 'right' : 'left',
             valueFormatter: (value: any) => `${value}°C`,
           }]}
+          grid={{ horizontal: true, vertical: false }}
         >
+          {/* SVG Gradient */}
           <defs>
             <linearGradient id="lineGradient" x1="1" y1="0" x2="0" y2="1">
               <stop offset="40%" stopColor="#eb5656ff" stopOpacity={0.8} />

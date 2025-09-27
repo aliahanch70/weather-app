@@ -2,74 +2,82 @@ import { Box, Typography, Stack } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import EmailIcon from '@mui/icons-material/Email';
 import { useTheme } from '@mui/material/styles';
-
-//  current date and time
-const getCurrentDateTime = () => {
-  const now = new Date();
-  
-  const options: Intl.DateTimeFormatOptions = {
-    hour: '2-digit',
-    minute: '2-digit',
-    weekday: 'long',
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  };
-  
-
-  const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(now).replace(',', ' .');
-  
-  return formattedDate;
-};
-
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
-    const theme = useTheme(); // Get the current theme to access its colors
-  
+  const theme = useTheme(); // current theme
+  const { t, i18n } = useTranslation();
+
+  const localTime = new Date();
+  const isFarsi = i18n.language === 'fa';
+
+  const fullDateFormatter = new Intl.DateTimeFormat(
+    isFarsi ? 'fa-IR' : 'en-GB',
+    {
+      day: 'numeric',
+      month: isFarsi ? 'long' : 'short', // month format 
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: !isFarsi, // 12-hour format for english
+      calendar: isFarsi ? 'persian' : 'gregory'
+    }
+  );
+
+  const fullDate = fullDateFormatter.format(localTime);
+
   return (
     <Box sx={{ backgroundColor: theme.palette.background.default }}>
-    <Box
-      component="footer"
-      sx={{
-        p: 2,
-        mt: 'auto', 
+      <Box
+        component="footer"
+        sx={{
+          p: 2,
+          mt: 'auto',
 
-        borderColor: 'divider',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        minHeight: '10vh',
-        gap: 2,
-        color:theme => theme.palette.color1?.default,
-        background: `linear-gradient(to right, transparent, ${theme.palette.background.paper}, transparent)`,
+          borderColor: 'divider',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          minHeight: '10vh',
+          gap: 2,
+          color: theme => theme.palette.color1?.default,
+          background: `linear-gradient(to right, transparent, ${theme.palette.background.paper}, transparent)`,
 
-      }}
-    >
-      {/* Left Side */}
-      <Typography variant="body2" color="text.secondary">
-        All rights of this site are reserved for Nadin Sadr Aria Engineering Company.
-      </Typography>
-
-      {/* Right Side */}
-      <Stack direction="row" spacing={2} alignItems="center">
-        
-        
-        <Stack direction="row" spacing={1} alignItems="center">
-          <EmailIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-          <Typography variant="body2" color="text.secondary">
-            contact us : info@nadin.ir
+        }}
+      >
+        {/* Left Side */}
+        <Box display="flex" alignItems="center" gap={1}>
+          <Box component="img"
+            src="/icon.png"
+            alt="Nadin Logo"
+            sx={{ height: 40 }}
+          />
+          <Typography sx={{ fontSize: {md:14,xs:12}}} color="text.secondary">
+            {t('nadin')}
           </Typography>
-        </Stack>
 
-        <Stack direction="row" spacing={1} alignItems="center">
-          <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-          <Typography variant="body2" color="text.secondary">
-            {getCurrentDateTime()}
-          </Typography>
+        </Box>
+
+        {/* Right Side */}
+        <Stack direction="row" spacing={2} alignItems="center">
+
+
+          <Stack direction="row" spacing={1} alignItems="center">
+            <EmailIcon sx={{ fontSize: {md:14,xs:14}, color: 'text.secondary' }} />
+            <Typography sx={{ fontSize: {md:14,xs:12}}} color="text.secondary">
+              {t('contact')}
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" spacing={1} alignItems="center">
+            <CalendarTodayIcon sx={{ fontSize: {md:14,xs:14}, color: 'text.secondary' }} />
+            <Typography sx={{ fontSize: {md:14,xs:12}}} color="text.secondary">
+              {fullDate}
+            </Typography>
+          </Stack>
         </Stack>
-      </Stack>
-    </Box>
+      </Box>
     </Box>
   );
 }

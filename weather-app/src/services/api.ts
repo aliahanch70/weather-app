@@ -7,6 +7,7 @@ const apiClient = axios.create({
   baseURL: BASE_URL,
 });
 
+// fetch current weather data
 export const getWeather = async (city: string) => {
   try {
     const response = await apiClient.get('/current.json', {

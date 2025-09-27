@@ -1,5 +1,3 @@
-// src/theme.ts
-
 declare module '@mui/material/styles' {
   interface Palette {
     tertiary: Palette['primary'];

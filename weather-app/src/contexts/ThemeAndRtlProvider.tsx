@@ -1,9 +1,10 @@
 import React, { useMemo, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles'; // 1. Import useTheme
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CssBaseline } from '@mui/material';
 
@@ -15,30 +16,37 @@ export const RtlProvider: React.FC<RtlProviderProps> = ({ children }) => {
   const { i18n } = useTranslation();
   const language = i18n.language;
 
-  // 2. Get the theme from your OUTER provider (e.g., ColorModeProvider)
-  const outerTheme = useTheme(); 
+  // theme 
+  const outerTheme = useTheme();
 
+  // change dir in body
   useEffect(() => {
     document.body.dir = language === 'fa' ? 'rtl' : 'ltr';
   }, [language]);
 
-  // 3. Create a NEW theme that combines the outer theme with the new direction
+  // create new theme with direction
   const theme = useMemo(() => {
-    return createTheme(outerTheme, {
+    return createTheme({
+      ...outerTheme,
       direction: language === 'fa' ? 'rtl' : 'ltr',
     });
   }, [language, outerTheme]);
 
-  // The RTL cache logic remains the same
-  const cacheRtl = useMemo(() => {
-    return createCache({
-      key: 'muirtl',
-      stylisPlugins: language === 'fa' ? [rtlPlugin] : [],
-    });
+  // 2 cache for languages
+  const cache = useMemo(() => {
+    return language === 'fa'
+      ? createCache({
+          key: 'muirtl',
+          stylisPlugins: [prefixer, rtlPlugin],
+        })
+      : createCache({
+          key: 'muiltr',
+          stylisPlugins: [prefixer],
+        });
   }, [language]);
 
   return (
-    <CacheProvider value={cacheRtl}>
+    <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}

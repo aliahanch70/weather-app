@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import type { ReactNode } from 'react';
 import type { PaletteMode } from '@mui/material';
 
-// تعریف نوع برای Context
+// def context
 interface ColorModeContextType {
   toggleColorMode: () => void;
   mode: PaletteMode;
@@ -15,13 +15,13 @@ export const ColorModeProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [mode, setMode] = useState<PaletteMode>(() => {
     try {
       const storedMode = localStorage.getItem('themeMode') as PaletteMode;
-      return storedMode || 'dark'; // مقدار پیش‌فرض 
+      return storedMode || 'dark'; // default dark
     } catch (error) {
       return 'light';
     }
   });
 
-  // تابع برای تغییر حالت و ذخیره آن در حافظه مرورگر
+  // change theme mode and save to localStorage
   const toggleColorMode = () => {
     const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);
@@ -36,12 +36,17 @@ export const ColorModeProvider: React.FC<{ children: ReactNode }> = ({ children 
     () =>
       createTheme({
         
+        typography: {
+          fontFamily: "Vazir, Arial, sans-serif",
+        },
+
+
         palette: {
           mode,
           primary: {
             main: '#4f8ce7ff',
-            light: '#F3F4F7',
-            dark: '#F3F4F7',
+            light: '#e9a512ff',
+            dark: '#2b54cfff',
             contrastText: '#ffffff',
           },
           secondary: {
@@ -64,12 +69,33 @@ export const ColorModeProvider: React.FC<{ children: ReactNode }> = ({ children 
             default: mode === 'light' ? ' #202224ff' : '#F3FAFE',
             paper: mode === 'light' ? '#CDD9E0' : '#3F4861',
           },
-          
+
           tertiary: {
             main: '#003464',
             contrastText: '#F3F4F7',
           },
         },
+        components: {
+    MuiMenu: {
+      styleOverrides: {
+        paper: ({ theme }: any) => ({
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? '#151D32'
+              : '#fff',
+          borderRadius: 8,
+        }),
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          "--Paper-overlay": "none", // 🚀 این خط مهمه
+          backgroundImage: "none",   // مطمئن میشه هیچ گرادیان نیاد
+        },
+      },
+    },
+  },
       }),
     [mode],
   );
@@ -85,7 +111,7 @@ export const ColorModeProvider: React.FC<{ children: ReactNode }> = ({ children 
   );
 };
 
-
+// custom hook for color mode context
 export const useColorMode = (): ColorModeContextType => {
   const context = useContext(ColorModeContext);
   if (!context) {

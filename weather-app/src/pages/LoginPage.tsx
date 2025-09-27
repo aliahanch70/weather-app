@@ -5,24 +5,26 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-
-// url تصویر
 const imageUrl = '/Login.png';
 
 const LoginPage: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
-  const [t, i18n] = useTranslation();
+  // --- Responsive Hooks ---
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md')); 
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLanguage = event.target.value;
     i18n.changeLanguage(newLanguage);
   };
 
-  // مدیریت ارسال فرم
   const handleSubmit = (): void => {
     if (name.trim().length >= 3) {
       setError(false);
@@ -32,7 +34,6 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // مدیریت ورودی و پنهان کردن خطا
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (error) {
       setError(false);
@@ -46,66 +47,78 @@ const LoginPage: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       minHeight="100vh"
-      sx={{ bgcolor: 'background.default' }}
+      sx={{ bgcolor: 'background.default', p: isMobile ? 2 : 0 }} 
     >
       <Box
         display="flex"
         flexDirection="column"
-        alignItems="center" // Centers items horizontally
+        alignItems="center"
+        width={isMobile ? '100%' : 'auto'} 
       >
-        <Paper elevation={4} sx={{ borderRadius: "15px", overflow: 'hidden', mb: 2 }}>
+        <Paper elevation={4} sx={{ 
+          borderRadius: "15px", 
+          overflow: 'hidden', 
+          mb: 2,
+          width: isMobile ? '100%' : '100vh', 
+          maxWidth: isMobile ? '450px' : 'none', 
+        }}>
           <Box sx={{
-            width: 960,
-            height: 560,
-
-            display: 'flex'
+            width: '100%', 
+            height: isMobile ? 'auto' : 560, 
+            minHeight: isMobile ? 'auto' : 'auto', 
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
           }}>
 
-            {/* فرم لاگین */}
+            {/* Login Form */}
             <Box sx={{
-              flex: 1,
-              backgroundColor: theme => theme.palette.background.paper,
-              p: 4,
+              flex: isMobile ? 'none' : 1, 
+              backgroundColor: theme.palette.background.paper,
+              p: isMobile ? 3 : 4, 
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              width: isMobile ? '100%' : '50%', 
+              height: isMobile ? '40vh' : '100%',
+              order: isMobile ? 2 : 1, 
             }}>
               <Typography
-                variant="h4"
+                variant= "h5"
                 component="h1"
                 sx={{ mb: 3, textAlign: 'center', fontWeight: 'bold' }}
               >
-                {t('welcomeMessage')}
+                {t('loginButton')}
               </Typography>
 
-              {/* Alert */}
               {error && (
                 <Alert severity="warning" sx={{ mb: 2 }}>
-                  Name must be at least 3 characters long
+                  {t('nameLengthError')} {/* Use translation for error message */}
                 </Alert>
               )}
 
               <TextField
-                label="Enter your name"
+                label={t('enterYourName')}
                 variant="outlined"
                 value={name}
+                
                 onChange={handleNameChange}
-                sx={{ mb: 3 }}
+                sx={{ mb: 3 ,mt: isMobile ? 3 : 4 ,fontSize: isMobile ? '0.9rem' : '1rem'  }}
               />
-              <Button variant="contained" color="primary" onClick={handleSubmit}>
-                Login
+              <Button  variant="contained" color="primary" onClick={handleSubmit} sx={{mt: isMobile ? 3 : 15 }}>
+                {t('loginButton')}
               </Button>
             </Box>
 
-            {/*  عکس */}
+            {/* Image */}
             <Box
               component="img"
               sx={{
-                flex: 1,
-                backgroundColor: theme => theme.palette.background.paper,
-                width: '50%',
-                height: '100%',
+                flex: isMobile ? 'none' : 1, 
+                backgroundColor: '#D3E1E7',
+                width: isMobile ? '100%' : '50%',
+                height: isMobile ? 300 : '100%', 
                 objectFit: 'cover',
+                order: isMobile ? 1 : 2,
               }}
               src={imageUrl}
               alt="Login visual"
@@ -114,24 +127,22 @@ const LoginPage: React.FC = () => {
           </Box>
         </Paper>
 
-
-        <Box sx={{ minWidth: 120 }}>
+        {/* Language Selector */}
+        <Box sx={{ minWidth: 120, width: isMobile ? '100%' : 'auto', maxWidth: isMobile ? '450px' : 'none', mt: 2 }}>
           <FormControl fullWidth>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              Language
+              {t('language')} 
             </InputLabel>
             <NativeSelect
-              // Set the current value from the i18n instance
               value={i18n.language}
-              // 3. Add the onChange handler
               onChange={handleLanguageChange}
               inputProps={{
                 name: 'Language',
                 id: 'uncontrolled-native',
               }}
             >
-              <option value='en'>English</option>
-              <option value='fa'>Farsi</option>
+              <option value='en'>{t('languageOptionEnglish')}</option>
+              <option value='fa'>{t('languageOptionPersian')}</option>
             </NativeSelect>
           </FormControl>
         </Box>
