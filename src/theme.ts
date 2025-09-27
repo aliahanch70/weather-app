@@ -4,12 +4,14 @@ declare module '@mui/material/styles' {
     background2?: PaletteOptions['background'];
     color1?: PaletteOptions['background'];
     color2?: PaletteOptions['background'];
+    background3?:PaletteOptions['background'];
   }
   interface PaletteOptions {
     tertiary?: PaletteOptions['primary'];
     background2?: PaletteOptions['background'];
     color1?: PaletteOptions['background'];
     color2?: PaletteOptions['background'];
+    background3?:PaletteOptions['background'];
 
   }
 }

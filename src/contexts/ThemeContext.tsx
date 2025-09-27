@@ -61,6 +61,9 @@ export const ColorModeProvider: React.FC<{ children: ReactNode }> = ({ children 
             default: mode === 'light' ? '#F3FAFE' : '#151D32',
             paper: mode === 'light' ? '#CDD9E0' : '#3F4861',
           },
+          background3: {
+            paper: mode === 'light' ? '#D3E1E7' : '#404961',
+          },
           color1: {
             default: mode === 'light' ? ' #003464' : '#F3FAFE',
             paper: mode === 'light' ? '#3F4861' : '#3F4861',
