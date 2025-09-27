@@ -48,12 +48,14 @@ export default function Footer() {
       >
         {/* Left Side */}
         <Box display="flex" alignItems="center" gap={1}>
-          <Box component="img"
+          <Box
+            component="img"
             src="/images/icon.png"
+            loading="lazy"
             alt="Nadin Logo"
             sx={{ height: 40 }}
           />
-          <Typography sx={{ fontSize: {md:14,xs:12}}} color="text.secondary">
+          <Typography sx={{ fontSize: { md: 14, xs: 12 } }} color="text.secondary">
             {t('nadin')}
           </Typography>
 
@@ -64,15 +66,15 @@ export default function Footer() {
 
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <EmailIcon sx={{ fontSize: {md:14,xs:14}, color: 'text.secondary' }} />
-            <Typography sx={{ fontSize: {md:14,xs:12}}} color="text.secondary">
+            <EmailIcon sx={{ fontSize: { md: 14, xs: 14 }, color: 'text.secondary' }} />
+            <Typography sx={{ fontSize: { md: 14, xs: 12 } }} color="text.secondary">
               {t('contact')}
             </Typography>
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <CalendarTodayIcon sx={{ fontSize: {md:14,xs:14}, color: 'text.secondary' }} />
-            <Typography sx={{ fontSize: {md:14,xs:12}}} color="text.secondary">
+            <CalendarTodayIcon sx={{ fontSize: { md: 14, xs: 14 }, color: 'text.secondary' }} />
+            <Typography sx={{ fontSize: { md: 14, xs: 12 } }} color="text.secondary">
               {fullDate}
             </Typography>
           </Stack>

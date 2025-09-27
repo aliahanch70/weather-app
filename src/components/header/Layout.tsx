@@ -90,6 +90,7 @@ export default function Layout() {
             <>
               <Box
                 component="img"
+                loading="lazy" 
                 sx={{ marginRight: 2, width: 'auto', height: { md: '56px', xs: "48px" } }}
                 src={imageUrl}
                 alt="App Logo"

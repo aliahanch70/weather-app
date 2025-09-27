@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function WeatherNow() {
     const { weatherData, loading, error, searchQuery } = useWeather();
-    
+
     const { t, i18n } = useTranslation();
 
     // simplify weather condition text
@@ -184,6 +184,7 @@ export default function WeatherNow() {
 
                 <Box
                     component="img"
+                    loading="lazy"
                     sx={{ height: 100 }}
                     alt={weatherData.current.condition.text}
                     src={`https:${weatherData.current.condition.icon}`}

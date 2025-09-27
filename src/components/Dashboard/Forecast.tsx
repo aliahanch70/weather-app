@@ -16,7 +16,7 @@ export default function Forecast() {
 
   if (error) {
     return (
-      <Box sx={{ maxHeight:310, minHeight: 310,justifyContent: 'center', alignItems: 'center'  }}>
+      <Box sx={{ maxHeight: 310, minHeight: 310, justifyContent: 'center', alignItems: 'center' }}>
         <Typography color="error" ><NetworkCheckOutlinedIcon /></Typography>
       </Box>
     );
@@ -24,7 +24,7 @@ export default function Forecast() {
 
   if (loading) {
     return (
-      <Box sx={{ width: "100%", overflow: 'hidden', p: 2, maxHeight: 327 , xs:{p:1} }}>
+      <Box sx={{ width: "100%", overflow: 'hidden', p: 2, maxHeight: 327, xs: { p: 1 } }}>
         <Typography sx={{ fontSize: 24, mb: 3, ml: 2, mt: '5px', textAlign: 'left', fontWeight: 'bold', color: theme => theme.palette.color1?.default }} >
           {t('2weekforecast')}
 
@@ -70,8 +70,8 @@ export default function Forecast() {
   }
 
   return (
-    <Box sx={{ width: "100%", overflow: 'hidden', p: {md:2 ,xs:1}  }}>
-      <Typography sx={{ fontSize: {md:24 ,xs:18}, mb: {md:2 ,xs:1}, ml: {md:2 ,xs:1}, mt: '5px', textAlign: 'left', fontWeight: 'bold', color: theme => theme.palette.color1?.default, xs:{mb: 1, ml: 1,fontSize: 20} }} >
+    <Box sx={{ width: "100%", overflow: 'hidden', p: { md: 2, xs: 1 } }}>
+      <Typography sx={{ fontSize: { md: 24, xs: 18 }, mb: { md: 2, xs: 1 }, ml: { md: 2, xs: 1 }, mt: '5px', textAlign: 'left', fontWeight: 'bold', color: theme => theme.palette.color1?.default, xs: { mb: 1, ml: 1, fontSize: 20 } }} >
         {t('2weekforecast')}
 
       </Typography>
@@ -80,7 +80,7 @@ export default function Forecast() {
           sx={{
             display: 'flex',
             gap: 2,
-            m: {md:2 ,xs:1},
+            m: { md: 2, xs: 1 },
 
             cursor: 'grab',
             '&:active': {
@@ -113,6 +113,7 @@ export default function Forecast() {
               }} />
               <Box
                 component="img"
+                loading="lazy"
                 sx={{ height: 50, my: 3 }}
                 alt={` ${_.day.condition.text}`}
                 src={`https:${_.day.condition.icon}`}

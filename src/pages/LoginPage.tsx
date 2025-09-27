@@ -111,7 +111,7 @@ const LoginPage: React.FC = () => {
               </Button>
             </Box>
 
-            {/* Image */}
+            {/* Images */}
             <Box
               sx={{
                 backgroundColor: theme.palette.background3?.paper,
@@ -135,6 +135,7 @@ const LoginPage: React.FC = () => {
                 <Box
                   component="img"
                   src={imageUrl}
+                  loading="lazy"
                   sx={{
                     width: isMobile ? "100%" : "180px",
                     height: isMobile ? 130 : "auto",
@@ -145,6 +146,7 @@ const LoginPage: React.FC = () => {
                 <Box
                   component="img"
                   src={imageUrl2}
+                  loading="lazy"
                   sx={{
                     width: isMobile ? "100%" : "180px",
                     height: isMobile ? 130 : "auto",
@@ -160,6 +162,8 @@ const LoginPage: React.FC = () => {
               <Box
                 component="img"
                 src={imageUrl3}
+                loading="lazy"
+
                 sx={{
                   width: isMobile ? "50%" : "180px",
                   height: isMobile ? 130 : "auto",
@@ -170,7 +174,6 @@ const LoginPage: React.FC = () => {
                 }}
               />
             </Box>
-
           </Box>
         </Paper>
 
