@@ -73,6 +73,7 @@ export default function Layout() {
                 }}
                 renderInput={(params) => (
                   <TextField
+                  
                     {...params}
                     label={t('searchYourLocation')}
                     onKeyDown={(event) => {
@@ -81,6 +82,7 @@ export default function Layout() {
                         handleSearch(inputValue);
                       }
                     }}
+                    size='small'
                   />
                 )}
               />

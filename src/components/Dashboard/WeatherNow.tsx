@@ -4,47 +4,31 @@ import { useWeather } from '../../contexts/WeatherContext';
 import NetworkCheckOutlinedIcon from '@mui/icons-material/NetworkCheckOutlined';
 import { useTranslation } from 'react-i18next';
 
-
-// simplify weather condition text
-
-
 export default function WeatherNow() {
     const { weatherData, loading, error, searchQuery } = useWeather();
-
     const { t, i18n } = useTranslation();
 
     // simplify weather condition text
     const simplifyWeatherCondition = (text: string): string => {
         if (!text) return 'Unknown';
-        const lowerCaseText = text.toLowerCase();
+        const lower = text.toLowerCase();
 
-        if (lowerCaseText.includes('sun') || lowerCaseText.includes('clear')) {
-            return `${t('sun')}`;
-        }
-        if (lowerCaseText.includes('cloud') || lowerCaseText.includes('overcast')) {
-            return `${t('cloudy')}`;
-        }
-        if (lowerCaseText.includes('rain') || lowerCaseText.includes('drizzle')) {
-            return `${t('rain')}`;
-        }
-        if (lowerCaseText.includes('snow') || lowerCaseText.includes('sleet') || lowerCaseText.includes('ice') || lowerCaseText.includes('blizzard')) {
-            return `${t('s')}`;
-        }
-        if (lowerCaseText.includes('thunder')) {
-            return `${t('thunder')}`;
-        }
-        if (lowerCaseText.includes('mist') || lowerCaseText.includes('fog') || lowerCaseText.includes('haze')) {
-            return `${t('mist')}`;
-        }
-        // return the first word 
+        if (lower.includes('sun') || lower.includes('clear')) return t('sun');
+        if (lower.includes('cloud') || lower.includes('overcast')) return t('cloudy');
+        if (lower.includes('rain') || lower.includes('drizzle')) return t('rain');
+        if (lower.match(/snow|sleet|ice|blizzard/)) return t('s');
+        if (lower.includes('thunder')) return t('thunder');
+        if (lower.match(/mist|fog|haze/)) return t('mist');
+
         return text.split(' ')[0];
     };
+
     const simplifiedText = simplifyWeatherCondition(weatherData?.current.condition.text);
 
     //  Loading State 
     if (loading) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" p={4} minHeight={234} maxHeight={234}>
+            <Box display="flex" justifyContent="center" alignItems="center" p={4} sx={{ height: { md: 234, xs: 180 } }}>
                 <CircularProgress />
                 <Typography sx={{ ml: 2 }}>Loading data for {searchQuery}...</Typography>
             </Box>
@@ -54,7 +38,7 @@ export default function WeatherNow() {
     // Error State 
     if (error) {
         return (
-            <Box m={10} minHeight={234} maxHeight={234} >
+            <Box m={10} sx={{ height: { md: 234, xs: 200 } }} >
                 <Typography color="error" align="center"><NetworkCheckOutlinedIcon fontSize='large' />{t('error')}</Typography>
             </Box>
         );
@@ -63,7 +47,7 @@ export default function WeatherNow() {
     //  No Data State 
     if (!weatherData) {
         return (
-            <Box p={4} minHeight={234} maxHeight={234}>
+            <Box p={4} sx={{ height: { md: 234, xs: 200 } }}>
                 <Typography align="center">Search for a location to see the weather.</Typography>
             </Box>
         );
@@ -110,78 +94,46 @@ export default function WeatherNow() {
         >
 
             {/* right box */}
-            <Box
-                sx={{ textAlign: 'left' }}>
-
+            <Box sx={{ textAlign: 'left' }}>
+                {/* Location */}
                 <Box
                     sx={{
-                        display: 'inline-flex',
+                        display: 'flex',
                         alignItems: 'center',
-                        mb: 1,
                         gap: 0.5,
                         bgcolor: '#CDD9E0',
                         borderRadius: 5,
                         px: 2,
-                        py: 1,
+                        py: 0.5,
+                        mb: 1,
                     }}
                 >
-                    <LocationOnIcon
-                        sx={{
-                            fontSize: { lg: 16, md: 14, xs: 14 },
-                            color: theme => theme.palette.color1?.paper,
-                        }}
-                    />
-                    <Typography
-                        sx={{
-                            fontSize: { lg: 16, md: 14, xs: 14 },
-                            color: theme => theme.palette.color1?.paper,
-                            lineHeight: 'normal',
-                        }}
-                    >
+                    <LocationOnIcon sx={{ fontSize: 16, color: theme => theme.palette.color1?.paper }} />
+                    <Typography sx={{ fontSize: 14, color: theme => theme.palette.color1?.paper }}>
                         {weatherData.location.name}
                     </Typography>
                 </Box>
 
-                <Box
-                    sx={{
-                        fontSize: { lg: 32, md: 28, xs: 24 },
-                        fontWeight: 'bold',
-                        color: theme => theme.palette.color1?.default
-                    }}>
+                {/* Day & Date */}
+                <Typography sx={{ fontSize: 28, fontWeight: 'bold', color: theme => theme.palette.color1?.default }}>
                     {dayOfWeek}
-                </Box>
-                <Box
-                    sx={{
-                        fontSize: { md: 14, xs: 12 },
-                        mb: { md: 1, xs: 1 },
-                        color: theme => theme.palette.color1?.default
-                    }}>
+                </Typography>
+                <Typography sx={{ fontSize: 14, mb: 1, color: theme => theme.palette.color1?.default }}>
                     {fullDate}
-                </Box>
+                </Typography>
 
-                <Box
-                    sx={{
-                        fontSize: { lg: 36, md: 32, xs: 26 },
-                        fontWeight: 'bold',
-                        color: theme => theme.palette.color1?.default,
-                    }}>
+                {/* Temp */}
+                <Typography sx={{ fontSize: 32, fontWeight: 'bold', color: theme => theme.palette.color1?.default }}>
                     {Math.round(weatherData.current.temp_c)}°C
-                </Box>
-                <Box
-                    sx={{
-                        fontSize: { md: 14, xs: 12 },
-                        color: theme => theme.palette.color1?.default,
-                    }}>
-                    {t('high')}: {Math.round(weatherData.current.heatindex_c)}
-                    {" "}
-                    {t('low')}: {Math.round(weatherData.current.dewpoint_c)}
-                </Box>
+                </Typography>
+                <Typography sx={{ fontSize: 14, color: theme => theme.palette.color1?.default }}>
+                    {t('high')}: {Math.round(weatherData.current.heatindex_c)}  {t('low')}: {Math.round(weatherData.current.dewpoint_c)}
+                </Typography>
             </Box>
 
             {/* left box */}
 
             <Box sx={{ display: "flex", flexDirection: 'column', alignItems: 'flex-start', direction: 'ltr', }}>
-
                 <Box
                     component="img"
                     loading="lazy"
