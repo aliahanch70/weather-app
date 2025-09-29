@@ -99,10 +99,10 @@ export default function WeatherNow() {
     return (
 
         <Stack direction="row"
-            spacing={2}
+            spacing={{ lg: 2, md: 1 }}
             sx={{
-                px: { md: 3, xs: 2 },
-                py: { md: 2, xs: 1 },
+                px: { lg: 3, md: 2, xs: 1 },
+                py: { lg: 3, md: 2, xs: 1 },
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}
@@ -127,13 +127,13 @@ export default function WeatherNow() {
                 >
                     <LocationOnIcon
                         sx={{
-                            fontSize: { md: 16, xs: 14 },
+                            fontSize: { lg: 16, md: 14, xs: 14 },
                             color: theme => theme.palette.color1?.paper,
                         }}
                     />
                     <Typography
                         sx={{
-                            fontSize: { md: 16, xs: 14 },
+                            fontSize: { lg: 16, md: 14, xs: 14 },
                             color: theme => theme.palette.color1?.paper,
                             lineHeight: 'normal',
                         }}
@@ -144,7 +144,7 @@ export default function WeatherNow() {
 
                 <Box
                     sx={{
-                        fontSize: { md: 32, xs: 24 },
+                        fontSize: { lg: 32, md: 28, xs: 24 },
                         fontWeight: 'bold',
                         color: theme => theme.palette.color1?.default
                     }}>
@@ -153,7 +153,7 @@ export default function WeatherNow() {
                 <Box
                     sx={{
                         fontSize: { md: 14, xs: 12 },
-                        mb: { md: 1, xs: 2 },
+                        mb: { md: 1, xs: 1 },
                         color: theme => theme.palette.color1?.default
                     }}>
                     {fullDate}
@@ -161,7 +161,7 @@ export default function WeatherNow() {
 
                 <Box
                     sx={{
-                        fontSize: { md: 36, xs: 26 },
+                        fontSize: { lg: 36, md: 32, xs: 26 },
                         fontWeight: 'bold',
                         color: theme => theme.palette.color1?.default,
                     }}>
@@ -191,7 +191,7 @@ export default function WeatherNow() {
                 />
                 <Box
                     sx={{
-                        fontSize: { md: 32, xs: 24 },
+                        fontSize: { lg: 32, md: 28, xs: 24 },
                         color: theme => theme.palette.color1?.default,
                         textAlign: 'right',
                         overflow: 'hidden'

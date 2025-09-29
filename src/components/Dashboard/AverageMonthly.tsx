@@ -50,10 +50,18 @@ export default function MonthlyAverageChart() {
 
   return (
     <>
-      <Typography sx={{ fontSize: 18, fontWeight: 'bold', my: 1, ml: 2, textAlign: 'left', color: theme => theme.palette.color1?.default }}>
+      <Typography
+        sx={{
+          fontSize: 18,
+          fontWeight: 'bold',
+          my: 1,
+          ml: { md: 2, xs: 1 },
+          textAlign: 'left',
+          color: theme => theme.palette.color1?.default
+        }}>
         {t('monthlyAverages')}
       </Typography>
-      <Box sx={{ width: '100%' , fontSize:10 }}>
+      <Box sx={{ width: '100%', fontSize: 10 }}>
         <LineChart
 
           height={180}
@@ -62,7 +70,7 @@ export default function MonthlyAverageChart() {
           xAxis={[{
             scaleType: 'point',
             dataKey: 'month',
-            tickSize:5,
+            tickSize: 5,
             disableLine: true,
             disableTicks: true,
           }]}

@@ -178,7 +178,7 @@ const LoginPage: React.FC = () => {
         </Paper>
 
         {/* Language Selector */}
-        <Box sx={{ minWidth: 120, width: isMobile ? '100%' : 'auto', maxWidth: isMobile ? '450px' : 'none', mt: 2 }}>
+        <Box sx={{ minWidth: 120, width: 'auto', maxWidth: isMobile ? '450px' : 'none', mt: 2 }}>
           <FormControl fullWidth>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
               {t('language')}
