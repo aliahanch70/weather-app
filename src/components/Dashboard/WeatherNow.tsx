@@ -108,8 +108,19 @@ export default function WeatherNow() {
                         mb: 1,
                     }}
                 >
-                    <LocationOnIcon sx={{ fontSize: 16, color: theme => theme.palette.color1?.paper }} />
-                    <Typography sx={{ fontSize: 14, color: theme => theme.palette.color1?.paper }}>
+                    <LocationOnIcon
+                        sx={{
+                            fontSize: { lg: 16, md: 14, xs: 14 },
+                            color: theme => theme.palette.color1?.paper,
+                        }}
+                    />
+                    <Typography
+                        sx={{
+                            fontSize: { lg: 16, md: 14, xs: 14 },
+                            color: theme => theme.palette.color1?.paper,
+                            lineHeight: 'normal',
+                        }}
+                    >
                         {weatherData.location.name}
                     </Typography>
                 </Box>
