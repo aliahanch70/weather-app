@@ -52,8 +52,10 @@ npm run build
 ```
 src/
  ├── components/    # Reusable UI components
- ├── contexts/      # React Context for weather state
+ ├── contexts/      # React Context for weather state & Theme Modes
  ├── i18n/          # Translation files (English/Persian)
+ ├── assets/fonts   # Fonts
+ ├── services       # API Fetching
  ├── App.tsx        # Main App component
  └── main.tsx       # Entry point
 ```
